@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from github import Github
-from github.GithubException import UnknownObjectException
+from github.GithubException import UnknownObjectException, BadCredentialsException
 import os
 import sys
 import argparse
@@ -39,12 +39,14 @@ if __name__ == "__main__":
     password = getpass.getpass("password: ").strip()
 
     g = Github(username, password)
-
     try:
         org = g.get_organization(args.organization)
+    except BadCredentialsException as e:
+        print("ERROR: Please enter valid credentials.")
+        sys.exit(100)
     except UnknownObjectException as e:
         print("Organization: '{}' does not exist. Please enter a valid organization name.".format(args.organization))
-        sys.exit(1)
+        sys.exit(101)
 
     if args.list:
         projects = ls(org)
