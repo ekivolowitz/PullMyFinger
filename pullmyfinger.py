@@ -10,12 +10,11 @@ from pprint import pprint
 from consts import pull_my_finger, displaying
 parser = argparse.ArgumentParser()
 
-def ls(org, org_name):
-    projects = "\n"
+def ls(org):
+    projects = []
     for project in org.get_repos():
-        projects += project.name + "\n"
-    print(displaying.format(org_name, projects))
- 
+        projects.append(project.name)
+    return projects 
 def clone(org, organization_name, username, password):
     for project in org.get_repos():
         repo = project._rawData['html_url']
@@ -25,11 +24,16 @@ def clone(org, organization_name, username, password):
         os.system("git clone {} {}".format(url, location))
 
 if __name__ == "__main__":
-    print(pull_my_finger)
-
     parser.add_argument("organization", help="List the name of an organization that you'd like to pull down.")
+    parser.add_argument("-q", "--quiet", action="store_true", help="Quiet mode only outputs the intended output\
+            of the command ignoring all else (the PullMyFinger ASCII art at the top, for instance). \
+            For example, `pullmyfinger -l organization` would only print the \
+            names of the repositories within `organization`.")
     parser.add_argument("-l", "--list", action="store_true", help="List the repositories in the organization.")
     args = parser.parse_args()
+
+    if not args.quiet:
+        print(pull_my_finger)
 
     username = input("Username: ").strip()
     password = getpass.getpass("password: ").strip()
@@ -43,6 +47,11 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if args.list:
-        ls(org, args.organization)
+        projects = ls(org)
+        formatted_projects = "\n".join(projects)
+        if args.quiet:
+            print(formatted_projects)
+        else:
+            print(displaying.format(args.organization, formatted_projects))
     else:
         clone(org, args.organization, username, password)
