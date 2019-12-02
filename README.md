@@ -20,5 +20,5 @@ optional arguments:
                 `organization`.
   -l, --list    List the repositories in the organization.
   -L            Display repositories within organization that contain commits
-                that have a HEAD on a different commit.
+                that have a HEAD on a different commit from your local version.
 ```
