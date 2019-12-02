@@ -31,8 +31,8 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--list", action="store_true", help="List the repositories in the organization.")
     args = parser.parse_args()
 
-    username = input("Username: ")
-    password = getpass.getpass("password: ")
+    username = input("Username: ").strip()
+    password = getpass.getpass("password: ").strip()
 
     g = Github(username, password)
 
