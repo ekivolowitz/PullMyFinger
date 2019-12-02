@@ -27,7 +27,7 @@ if __name__ == "__main__":
     parser.add_argument("organization", help="List the name of an organization that you'd like to pull down.")
     parser.add_argument("-q", "--quiet", action="store_true", help="Quiet mode only outputs the intended output\
             of the command ignoring all else (the PullMyFinger ASCII art at the top, for instance). \
-            For example, `pullmyfinger -l organization` would only print the \
+            For example, `pullmyfinger -lq organization` would only print the \
             names of the repositories within `organization`.")
     parser.add_argument("-l", "--list", action="store_true", help="List the repositories in the organization.")
     args = parser.parse_args()
