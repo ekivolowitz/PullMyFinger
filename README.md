@@ -6,5 +6,5 @@ pip install PyGithub
 
 ## Usage
 ```
-usage: python3 gitrepopull.py [-h] <organization_name>
+usage: python3 pullmyfinger.py [-h] <organization_name>
 ```
