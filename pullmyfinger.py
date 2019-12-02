@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-
+# Author: Evan Kivolowitz | @ekivolowitz on github
+# Date: 12-01-2019
+# Description: A suite of tools to help managing a Github Organization
+# License: See Github Repository, GNU GPL 3.0
 from github import Github
 from github.GithubException import UnknownObjectException, BadCredentialsException
 import os
