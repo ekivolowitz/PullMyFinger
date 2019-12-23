@@ -18,7 +18,7 @@ You must give the token the `repo` scope to allow `pullmyfinger` to work.
 usage: pullmyfinger.py [-h] [-q] [-l] [-L] organization
 
 positional arguments:
-  organization  List the name of an organization that you'd like to pull down.
+  organization  List the name of an organization that you'd like to inspect / clone locally.
 
 optional arguments:
   -h, --help    show this help message and exit
@@ -29,5 +29,5 @@ optional arguments:
                 `organization`.
   -l, --list    List the repositories in the organization.
   -L            Display repositories within organization that contain commits
-                that have a HEAD on a different commit.
+                that have a HEAD on a different commit from your local version.
 ```
