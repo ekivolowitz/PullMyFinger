@@ -8,9 +8,9 @@ from github.GithubException import UnknownObjectException, BadCredentialsExcepti
 import os
 import sys
 import argparse
-import getpass
 from pprint import pprint
 from consts import pull_my_finger, displaying
+import json
 parser = argparse.ArgumentParser()
 
 def ls(org):
@@ -25,7 +25,7 @@ def ls(org):
     for project in org.get_repos():
         projects.append(project.name)
     return projects 
-def clone(org, organization_name, username, password):
+def clone(org, organization_name, username, token):
     '''
     clone - clones each repository into your $cwd/organization_name/<repository_name>
     params:
@@ -40,8 +40,18 @@ def clone(org, organization_name, username, password):
         repo = project._rawData['html_url']
         location = organization_name + os.sep + project.name
         domain = repo.split("https://")[1]
-        url = "https://{}:{}@{}".format(username, password, domain)
+        url = "https://{}:{}@{}".format(username, token, domain)
         os.system("git clone {} {}".format(url, location))
+
+def get_token(path):
+    try:
+        with open(os.path.expanduser("~/.pullmyfinger.json"), 'r') as f:
+            d = json.load(f)
+            access_token = d['access_token']
+            return access_token
+    except:
+        print("ERROR: Make sure you have your access token in ~/.pullmyfinger.json in the right format.")
+        sys.exit(103)
 
 if __name__ == "__main__":
 
@@ -63,10 +73,8 @@ if __name__ == "__main__":
         sys.exit(102)
 
     username = input("Username: ").strip()
-    password = getpass.getpass("password: ").strip()
-
-    g = Github(username, password)
-
+    token = get_token("~/.pullmyfinger.json")
+    g = Github(token)
     try:
         org = g.get_organization(args.organization)
     except BadCredentialsException as e:
@@ -86,4 +94,4 @@ if __name__ == "__main__":
     elif args.L:
         print("Coming soon!")
     else:
-        clone(org, args.organization, username, password)
+        clone(org, args.organization, username, token)
